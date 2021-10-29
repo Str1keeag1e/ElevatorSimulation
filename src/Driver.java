@@ -3,29 +3,39 @@ import java.util.concurrent.Semaphore;
 
 public class Driver {
 
+    static int numPeople = 49;
     public static void main(String[] args){
-        final int numPeople = 49;
+
         int count = 0;
 
 
         //declare elevator operating semaphore.
-        Semaphore elevatorOperator = new Semaphore(0,false);
+
 
         //declaring threads for all 49 people.
         Thread [] peopleThreads = new Thread[numPeople];
 
         //a associative array for the person + destination
-        List<List<Person>> personDestinationPerFloor = new ArrayList<>(10);
 
+
+
+        //create people threads
+        for(int i = 0; i < 10; i++){
+            peopleThreads[i] = new Thread(new Person(i,1,randomNumber()));
+
+        }
         //initialize elevator Thread
         Thread elevator = new Thread(new Elevator());
 
         elevator.start();
-        
+
         //initialize person threads
-        for(int i = 0; i < numPeople; i++){
-            peopleThreads[i] = new Thread(new Person(i,1,randomNumber()));
+
+        for(int i = 0; i < 10; i++){
+            peopleThreads[i].start();
         }
+
+
 
     }
 
